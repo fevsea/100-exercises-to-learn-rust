@@ -1,8 +1,19 @@
+const DEFAULT_DESCRIPTION: &'static str = "Description not provided";
+
 // TODO: `easy_ticket` should panic when the title is invalid.
 //   When the description is invalid, instead, it should use a default description:
 //   "Description not provided".
 fn easy_ticket(title: String, description: String, status: Status) -> Ticket {
-    todo!()
+    let mut ticket = Ticket::new(title.clone(), description, status.clone());
+
+    match ticket {
+        Ok(ticket) => ticket,
+        Err(err) => {
+            if err.starts_with("Description"){
+                Ticket::new(title, DEFAULT_DESCRIPTION.clone().to_string(), status).unwrap()
+            } else { panic!("{:?}", err) }
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Clone)]
