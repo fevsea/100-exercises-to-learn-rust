@@ -1,6 +1,10 @@
 // TODO: Define a function named `sum` that takes a reference to a slice of `u32` and returns the sum of all
 //  elements in the slice.
 
+fn sum(a: &[u32]) -> u32 {
+    a.into_iter().sum()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -20,6 +24,7 @@ mod tests {
     #[test]
     fn multiple_elements() {
         let v = vec![1, 2, 3, 4, 5];
+        assert_eq!(sum(&v), 15);
         assert_eq!(sum(&v), 15);
     }
 

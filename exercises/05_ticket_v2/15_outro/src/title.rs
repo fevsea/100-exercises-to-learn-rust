@@ -5,21 +5,29 @@
 #[derive(Debug, Clone, PartialEq)]
 pub struct TicketTitle(String);
 
+#[derive(Debug, thiserror::Error)]
+pub enum TicketTitleError {
+    #[error("The title cannot be empty")]
+    TitleEmpty,
+    #[error("The title cannot be longer than 50 bytes")]
+    TitleTooLong,
+}
+
 impl TryFrom<&str> for TicketTitle {
-    type Error = String;
+    type Error = TicketTitleError;
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         if value.is_empty() {
-            Err("The title cannot be empty".to_string())
+            Err(TicketTitleError::TitleEmpty)
         } else if value.len() > 50 {
-            Err("The title cannot be longer than 50 bytes".to_string())
+            Err(TicketTitleError::TitleTooLong)
         } else {
             Ok(Self(value.to_string()))
         }
     }
 }
 impl TryFrom<String> for TicketTitle {
-    type Error = String;
+    type Error = TicketTitleError;
     fn try_from(value: String) -> Result<Self, Self::Error> {
         value.as_str().try_into()
     }

@@ -7,6 +7,15 @@ pub enum Status {
     InProgress,
     Done,
 }
+
+#[derive(Debug, thiserror::Error)]
+pub enum StatusTitleError {
+    #[error("The title cannot be empty")]
+    TitleEmpty,
+    #[error("The title cannot be longer than 50 bytes")]
+    TitleTooLong,
+}
+
 impl TryFrom<&str> for Status {
     type Error = String;
 
